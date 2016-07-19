@@ -20,12 +20,39 @@ app.controller('mainCtrl', function($scope, $http, $firebaseObject, $firebaseArr
 	  // redirect_uri: 'http://localhost:8000/#/login'
 	});
 
-	SC.stream('/tracks/244261890').then(function(player){
-	  player.play();
-	  console.log(player);
-	  $scope.myPlayer= player.streamInfo;
+	SC.stream('/tracks/244261890').then(function(scPlayer){
+	  scPlayer.play();
+	  console.log(scPlayer);
+	  $scope.mySCPlayer= scPlayer.streamInfo;
 	});
 
+	$scope.youTubePlayer;
+	function onYouTubeIframeAPIReady() {
+		  $scope.youTubePlayer = new YT.Player('player', {
+		    height: '390',
+		    width: '640',
+		    mediaContentUrl:'https://www.youtube.com/watch?v=Rv_a6rlRjZk',
+		    events: {
+		      'onReady': onPlayerReady,
+		      'onStateChange': onPlayerStateChange
+		    }
+		  });
+		  $scope.youTubePlayer.cueVideoByUrl({
+			mediaContentUrl:"https://www.youtube.com/watch?v=EhC1K6KCm90",
+            startSeconds: 0,
+            suggestedQuality: "Auto"})
+		  console.log("youtube player", $scope.youTubePlayer);
+	}
+	
+
+
+
+
+
+	// $scope.youTubePlayer.cueVideoById({
+	// 		videoId: 'EhC1K6KCm90',
+ //        	startSeconds: 0,
+ //        });
 	// var tracks = [{id: 290}, {id: 291}, {id: 292}];
 
 	// SC.connect().then(function() {
